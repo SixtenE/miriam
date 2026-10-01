@@ -4,7 +4,7 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { Grid, Html, Line, OrbitControls, RoundedBox } from '@react-three/drei'
 import { BallCollider, CylinderCollider, Physics, RigidBody, useRapier } from '@react-three/rapier'
 import type { RapierRigidBody } from '@react-three/rapier'
-import { DoubleSide, Quaternion, Vector3 } from 'three'
+import { DoubleSide, PCFShadowMap, Quaternion, Vector3 } from 'three'
 import { EV3Runtime, EMPTY_EXECUTION } from './runtime'
 import { loadProgram } from './lmsp'
 import type { ExecutionSnapshot, Program, Value } from './runtime'
@@ -309,7 +309,7 @@ function App() {
         </div>
         {uploadError && <p className="shrink-0 border-b px-3 py-1.5 text-xs text-destructive" role="alert">{uploadError}</p>}
         <div className="relative min-h-0 flex-1">
-          <Canvas className="absolute inset-0" shadows camera={{ position: [0, 4, 0.001], fov: 42 }}><Suspense fallback={null}><Arena key={reset} config={config} view={view} controls={{ running, stepRequest, speed, halt: () => setRunning(false) }} runtime={runtime} mission={mission} zones={telemetry.mission?.zones ?? EMPTY_ZONES} openingIds={openingIds} inputIds={inputIds} report={setTelemetry} debug={false} /></Suspense></Canvas>
+          <Canvas className="absolute inset-0" shadows={{ type: PCFShadowMap }} camera={{ position: [0, 4, 0.001], fov: 42 }}><Suspense fallback={null}><Arena key={reset} config={config} view={view} controls={{ running, stepRequest, speed, halt: () => setRunning(false) }} runtime={runtime} mission={mission} zones={telemetry.mission?.zones ?? EMPTY_ZONES} openingIds={openingIds} inputIds={inputIds} report={setTelemetry} debug={false} /></Suspense></Canvas>
         </div>
       </div>
       {rightOpen && <aside id={showCode ? 'code-overlay' : 'variables-overlay'} className="flex min-h-0 flex-1 flex-col overflow-hidden border-t p-3 md:w-[28rem] md:shrink-0 md:flex-none md:border-t-0 md:border-l">
